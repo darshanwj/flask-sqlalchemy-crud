@@ -2,7 +2,6 @@ version: "3"
 
 services:
   api:
-    #image: python:3.9-slim-buster
     build:
       context: .
     volumes: 
@@ -17,7 +16,7 @@ services:
       - PYTHONDONTWRITEBYTECODE=nah
     depends_on: 
       - mysql
-    entrypoint: sh -c "python -m venv --copies venv && . venv/bin/activate; pip install -r requirements-dev.txt && flask run --host=0.0.0.0"
+    entrypoint: sh -c "python3 -m venv --copies venv && . venv/bin/activate; pip install -r requirements-dev.txt && flask run --host=0.0.0.0"
 
   mysql:
     image: mysql:5.7
