@@ -1,0 +1,5 @@
+Flask
+mysqlclient
+SQLAlchemy
+marshmallow
+# alembic

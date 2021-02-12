@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  api:
+    #image: python:3.9-slim-buster
+    build:
+      context: .
+    volumes: 
+      - .:/code
+    working_dir: /code
+    ports: 
+      - "8081:5000"
+    environment: 
+      - FLASK_APP=alch
+      - FLASK_ENV=development
+      - PYTHONUNBUFFERED=yeah
+      - PYTHONDONTWRITEBYTECODE=nah
+    depends_on: 
+      - mysql
+    entrypoint: sh -c "python -m venv --copies venv && . venv/bin/activate; pip install -r requirements-dev.txt && flask run --host=0.0.0.0"
+
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "3316:3306"
+    environment: 
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=myalch
