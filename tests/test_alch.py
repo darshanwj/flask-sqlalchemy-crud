@@ -44,6 +44,32 @@ def test_create_user(client):
     assert 'name' in user and user['name'] == 'first test user'
 
 
+def test_update_user(client):
+    """Test updating a user"""
+    res = client.put(
+        '/user/{}'.format(1),
+        json={
+            'name': 'updated name'
+        }
+    )
+    body = res.get_json()
+    assert body is not None
+    assert 'user' in body
+    user = body['user']
+    assert 'id' in user and user['id'] == 1
+    assert 'name' in user and user['name'] == 'updated name'
+
+
+def test_get_user(client):
+    res = client.get('/user/{}'.format(1))
+    body = res.get_json()
+    assert body is not None
+    assert 'user' in body
+    user = body['user']
+    assert 'id' in user and user['id'] == 1
+    assert 'name' in user and user['name'] == 'updated name'
+
+
 def test_home(client):
     """Test home page."""
     assert client.get("/").status_code == 200
