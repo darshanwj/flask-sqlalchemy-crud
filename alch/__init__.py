@@ -1,9 +1,9 @@
-""" application """
+"""Flask application."""
 from flask import Flask
 
 
 def create_app(test_conf=None):
-    """ application factory """
+    """Application factory."""
     app = Flask(__name__)
 
     app.config.from_mapping(

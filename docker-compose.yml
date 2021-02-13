@@ -16,6 +16,7 @@ services:
       - PYTHONDONTWRITEBYTECODE=nah
     depends_on: 
       - mysql
+      - redis
     entrypoint: sh -c "python3 -m venv --copies venv && . venv/bin/activate; pip install -r requirements-dev.txt && flask run --host=0.0.0.0"
 
   mysql:
@@ -28,3 +29,6 @@ services:
     environment: 
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=myalch
+
+  redis:
+    image: redis:6.0

@@ -4,6 +4,7 @@ from marshmallow import ValidationError
 from alch.db import Session as db
 from alch.models import User
 from alch.schema import user_sch, users_sch
+from alch.redis_cache import Client as red
 
 
 @app.route('/')
@@ -66,3 +67,30 @@ def update_user(uid):
     db.commit()
 
     return {'user': user_sch.dump(user)}
+
+
+@app.route('/redis/w')
+def redis_write():
+    """Write to redis, strings and hashes."""
+    ok = red.set('sample:firstkey', 'some data here')
+
+    second = {
+        'id': 6,
+        'name': 'myname',
+        'email': 'myname2@hs.ae'
+    }
+    ok2 = red.hset('user:{}'.format(second['id']), mapping=second)
+
+    return {'set': ok, 'hset': ok2}
+
+
+@app.route('/redis/r')
+def redis_read():
+    """Read from redis, strings and hashes."""
+    val = red.get('sample:firstkey')
+
+    val2 = red.hgetall('user:{}'.format(6))
+
+    val3 = red.hget('user:{}'.format(6), 'email')
+
+    return {'get': val, 'hgetall': val2, 'hget': val3}
